@@ -1,27 +1,33 @@
 function pageLoad(){
     $("lookup").observe("click", pageAlert);
-    new Ajax.Request("world.php?all=true",
-        {
-            method: "get",
-            onSuccess: function giveAt(ajax){
-                //alert(ajax.responseXML);
-                $("result").innerHtml = ajax.responseText;
-            }
-        }
-    );
+    
 }
 
 function pageAlert(){
-    var str = $("term").value;
-    new Ajax.Request("world.php?lookup="+str,
+    if ($("checkbox").checked === true){
+        new Ajax.Request("world.php?all=true",
         {
             method: "GET",
-            onSuccess: function giveAlert(ajax){
+            onSuccess: function showAll(ajax){
                 //alert(ajax.responseText);
+                //alert(ajax.responseXML);
                 $("result").innerHTML = ajax.responseText;
             }
         }
     );
+    }
+    else{
+    var country = $("term").value;
+    new Ajax.Request("world.php?lookup="+country,
+        {
+            method: "GET",
+            onSuccess: function giveAlert(ajax){
+                alert(ajax.responseText);
+                $("result").innerHTML = ajax.responseText;
+            }
+        }
+    );
+    }
 }
 
 window.onload = pageLoad;
